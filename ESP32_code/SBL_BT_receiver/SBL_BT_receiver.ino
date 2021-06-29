@@ -9,7 +9,7 @@
 
 BluetoothSerial SerialBT;
 uint8_t control_byte;
-uint32_t i = 0;
+
 
 void setup() {
   Serial.begin(115200);
@@ -19,7 +19,6 @@ void setup() {
 void loop() {
   if (SerialBT.available()) {
     control_byte = (uint8_t) SerialBT.read(); 
-    Serial.write(control_byte);
 
     if (control_byte & 0x80) {
       analogWrite(BUZ_PIN, 127, 987.77);
@@ -27,10 +26,6 @@ void loop() {
       analogWrite(BUZ_PIN, 0, 987.77);
     }
   }
-  else if (i++ == 524288) //2^19
-  {
-    i=0;
-    Serial.write(control_byte);
-  }
+  Serial.write(control_byte);
+  delay(300);
 }
-
