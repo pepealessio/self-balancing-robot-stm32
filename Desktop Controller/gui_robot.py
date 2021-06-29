@@ -21,6 +21,7 @@ bool_buz = True
 
 def up_pressed():
     """ Sends control byte with the up Bit set through the Bluetooth Socket  """
+    upBtn['background'] = 'LightGoldenrod3'
     global bool_up
     if bool_up:
         try:
@@ -34,6 +35,7 @@ def up_pressed():
 
 def up_released():
     """ Sends control byte with the up Bit unset through the Bluetooth Socket  """
+    upBtn['background'] = 'white'
     global bool_up
     if not bool_up:
         try:
@@ -47,6 +49,7 @@ def up_released():
 
 def down_pressed():
     """ Sends control byte with the down Bit set through the Bluetooth Socket  """
+    downBtn['background'] = 'LightGoldenrod3'
     global bool_down
     if bool_down:
         try:
@@ -60,6 +63,7 @@ def down_pressed():
 
 def down_released():
     """ Sends control byte with the down Bit unset through the Bluetooth Socket  """
+    downBtn['background'] = 'white'
     global bool_down
     if not bool_down:
         try:
@@ -73,6 +77,7 @@ def down_released():
 
 def left_pressed():
     """ Sends control byte with the left bit set through the Bluetooth Socket  """
+    leftBtn['background'] = 'LightGoldenrod3'
     global bool_left
     if bool_left:
         try:
@@ -86,6 +91,7 @@ def left_pressed():
 
 def left_released():
     """ Sends control byte with the left Bit unset through the Bluetooth Socket  """
+    leftBtn['background'] = 'white'
     global bool_left
     if not bool_left:
         try:
@@ -99,6 +105,7 @@ def left_released():
 
 def right_pressed():
     """ Sends control byte with the right Bit set through the Bluetooth Socket  """
+    rightBtn['background'] = 'LightGoldenrod3'
     global bool_right
     if bool_right:
         try:
@@ -112,6 +119,7 @@ def right_pressed():
 
 def right_released():
     """ Sends control byte with the right Bit unset through the Bluetooth Socket  """
+    rightBtn['background'] = 'white'
     global bool_right
     if not bool_right:
         try:
@@ -125,6 +133,7 @@ def right_released():
 
 def up_left_pressed():
     """ Sends control byte with the up and left bits set through the Bluetooth Socket  """
+    upLeftBtn['background'] = 'LightGoldenrod3'
     global bool_up_left
     if bool_up_left:
         try:
@@ -138,6 +147,7 @@ def up_left_pressed():
 
 def up_left_released():
     """ Sends control byte with the up and left Bits unset through the Bluetooth Socket  """
+    upLeftBtn['background'] = 'white'
     global bool_up_left
     if not bool_up_left:
         try:
@@ -151,6 +161,7 @@ def up_left_released():
 
 def up_right_pressed():
     """ Sends control byte with the up and right bits set through the Bluetooth Socket  """
+    upRightBtn['background'] = 'LightGoldenrod3'
     global bool_up_right
     if bool_up_right:
         try:
@@ -164,6 +175,7 @@ def up_right_pressed():
 
 def up_right_released():
     """ Sends control byte with the up and right Bits unset through the Bluetooth Socket  """
+    upRightBtn['background'] = 'white'
     global bool_up_right
     if not bool_up_right:
         try:
@@ -177,6 +189,7 @@ def up_right_released():
 
 def down_left_pressed():
     """ Sends control byte with the down and left bits set through the Bluetooth Socket  """
+    downLeftBtn['background'] = 'LightGoldenrod3'
     global bool_down_left
     if bool_down_left:
         try:
@@ -190,6 +203,7 @@ def down_left_pressed():
 
 def down_left_released():
     """ Sends control byte with the down and left Bits unset through the Bluetooth Socket  """
+    downLeftBtn['background'] = 'white'
     global bool_down_left
     if not bool_down_left:
         try:
@@ -203,6 +217,7 @@ def down_left_released():
 
 def down_right_pressed():
     """ Sends control byte with the down and right bits set through the Bluetooth Socket  """
+    downRightBtn['background'] = 'LightGoldenrod3'
     global bool_down_right
     if bool_down_right:
         try:
@@ -216,6 +231,7 @@ def down_right_pressed():
 
 def down_right_released():
     """ Sends control byte with the down and right Bits unset through the Bluetooth Socket  """
+    downRightBtn['background'] = 'white'
     global bool_down_right
     if not bool_down_right:
         try:
@@ -229,6 +245,7 @@ def down_right_released():
 
 def buz_pressed():
     """ Sends control byte with the buz bit set through the Bluetooth Socket  """
+    buzBtn['background'] = 'LightGoldenrod3'
     global bool_buz
     if bool_buz:
         try:
@@ -242,6 +259,7 @@ def buz_pressed():
 
 def buz_released():
     """ Sends control byte with the buzzer Bit unset through the Bluetooth Socket  """
+    buzBtn['background'] = 'white'
     global bool_buz
     if not bool_buz:
         try:
@@ -338,45 +356,80 @@ def key_unbind():
     ws.unbind('<KeyPress-space>')
 
 
+def on_enter(btn):
+    btn['background'] = 'LightGoldenrod1'
+
+
+def on_leave(btn):
+    btn['background'] = 'white'
+
+
 # configure workspace
 ws = Tk()
 ws.title("SBL controller")
-ws.geometry('340x300')
+ws.geometry('470x300')
 ws.configure(bg="lightgray")
 
 # button definition
 buttonFont = font.Font(family='Tahoma', size=16)
-upBtn = Button(ws, text="W", bg='white', font=buttonFont)
-downBtn = Button(ws, text="S", bg='white', font=buttonFont)
-leftBtn = Button(ws, text="A", bg='white', font=buttonFont)
-rightBtn = Button(ws, text="D", bg='white', font=buttonFont)
-upLeftBtn = Button(ws, text="⬉", bg='white', font=buttonFont)
-downLeftBtn = Button(ws, text="⬋", bg='white', font=buttonFont)
-upRightBtn = Button(ws, text="⬈", bg='white', font=buttonFont)
-downRightBtn = Button(ws, text="⬊", bg='white', font=buttonFont)
-buzBtn = Button(ws, text="Horn", bg='white', font=buttonFont)
+upBtn = Button(ws, text="🡡 (W)", bg='white', font=buttonFont)
+downBtn = Button(ws, text="🡣 (S)", bg='white', font=buttonFont)
+leftBtn = Button(ws, text="🡠 (A)", bg='white', font=buttonFont)
+rightBtn = Button(ws, text="🡢 (D)", bg='white', font=buttonFont)
+upLeftBtn = Button(ws, text="🡤 (WA)", bg='white', font=buttonFont)
+downLeftBtn = Button(ws, text="🡧 (SA)", bg='white', font=buttonFont)
+upRightBtn = Button(ws, text="🡥 (WD)", bg='white', font=buttonFont)
+downRightBtn = Button(ws, text="🡦 (SD)", bg='white', font=buttonFont)
+buzBtn = Button(ws, text="Horn (ws)", bg='white', font=buttonFont)
 connectBtn = Button(ws, text="Connect", bg='gray', fg="white", command=connect, width=10, font=buttonFont)
 connectedLbl = Label(ws, text="NOT connected!", bg='red', fg='white', font=buttonFont)
 
 # Buttons binding
 upBtn.bind('<ButtonRelease>', lambda event: up_released())
 upBtn.bind('<ButtonPress>', lambda event: up_pressed())
+upBtn.bind('<Enter>', lambda event: on_enter(upBtn))
+upBtn.bind('<Leave>', lambda event: on_leave(upBtn))
+
 downBtn.bind('<ButtonRelease>', lambda event: down_released())
 downBtn.bind('<ButtonPress>', lambda event: down_pressed())
+downBtn.bind('<Enter>', lambda event: on_enter(downBtn))
+downBtn.bind('<Leave>', lambda event: on_leave(downBtn))
+
 leftBtn.bind('<ButtonRelease>', lambda event: left_released())
 leftBtn.bind('<ButtonPress>', lambda event: left_pressed())
+leftBtn.bind('<Enter>', lambda event: on_enter(leftBtn))
+leftBtn.bind('<Leave>', lambda event: on_leave(leftBtn))
+
 rightBtn.bind('<ButtonRelease>', lambda event: right_released())
 rightBtn.bind('<ButtonPress>', lambda event: right_pressed())
+rightBtn.bind('<Enter>', lambda event: on_enter(rightBtn))
+rightBtn.bind('<Leave>', lambda event: on_leave(rightBtn))
+
 upLeftBtn.bind('<ButtonRelease>', lambda event: up_left_released())
 upLeftBtn.bind('<ButtonPress>', lambda event: up_left_pressed())
+upLeftBtn.bind('<Enter>', lambda event: on_enter(upLeftBtn))
+upLeftBtn.bind('<Leave>', lambda event: on_leave(upLeftBtn))
+
 upRightBtn.bind('<ButtonRelease>', lambda event: up_right_released())
 upRightBtn.bind('<ButtonPress>', lambda event: up_right_pressed())
+upRightBtn.bind('<Enter>', lambda event: on_enter(upRightBtn))
+upRightBtn.bind('<Leave>', lambda event: on_leave(upRightBtn))
+
 downLeftBtn.bind('<ButtonRelease>', lambda event: down_left_released())
 downLeftBtn.bind('<ButtonPress>', lambda event: down_left_pressed())
+downLeftBtn.bind('<Enter>', lambda event: on_enter(downLeftBtn))
+downLeftBtn.bind('<Leave>', lambda event: on_leave(downLeftBtn))
+
 downRightBtn.bind('<ButtonRelease>', lambda event: down_right_released())
 downRightBtn.bind('<ButtonPress>', lambda event: down_right_pressed())
+downRightBtn.bind('<Enter>', lambda event: on_enter(downRightBtn))
+downRightBtn.bind('<Leave>', lambda event: on_leave(downRightBtn))
+
 buzBtn.bind('<ButtonRelease>', lambda event: buz_released())
 buzBtn.bind('<ButtonPress>', lambda event: buz_pressed())
+buzBtn.bind('<Enter>', lambda event: on_enter(buzBtn))
+buzBtn.bind('<Leave>', lambda event: on_leave(buzBtn))
+
 
 # Buttons show
 upBtn.grid(row=0, column=1, sticky=NSEW, padx=1, pady=1)
