@@ -1,3 +1,7 @@
+"""
+    GUI for the control of the Self Balancing Robot
+"""
+
 from tkinter import *
 from tkinter import messagebox, font
 
@@ -16,11 +20,12 @@ bool_buz = True
 
 
 def up_pressed():
+    """ Sends control byte with the up Bit set through the Bluetooth Socket  """
     global bool_up
     if bool_up:
         try:
             global control_byte
-            control_byte |= 0x40
+            control_byte |= 0x40  # 0100 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_up = False
         except OSError:
@@ -28,11 +33,12 @@ def up_pressed():
 
 
 def up_released():
+    """ Sends control byte with the up Bit unset through the Bluetooth Socket  """
     global bool_up
     if not bool_up:
         try:
             global control_byte
-            control_byte &= 0xBF
+            control_byte &= 0xBF    # 1011 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_up = True
         except OSError:
@@ -40,11 +46,12 @@ def up_released():
 
 
 def down_pressed():
+    """ Sends control byte with the down Bit set through the Bluetooth Socket  """
     global bool_down
     if bool_down:
         try:
             global control_byte
-            control_byte |= 0x20
+            control_byte |= 0x20    # 0010 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_down = False
         except OSError:
@@ -52,11 +59,12 @@ def down_pressed():
 
 
 def down_released():
+    """ Sends control byte with the down Bit unset through the Bluetooth Socket  """
     global bool_down
     if not bool_down:
         try:
             global control_byte
-            control_byte &= 0xDF
+            control_byte &= 0xDF    # 1101 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_down = True
         except OSError:
@@ -64,11 +72,12 @@ def down_released():
 
 
 def left_pressed():
+    """ Sends control byte with the left bit set through the Bluetooth Socket  """
     global bool_left
     if bool_left:
         try:
             global control_byte
-            control_byte |= 0x10
+            control_byte |= 0x10    # 0001 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_left = False
         except OSError:
@@ -76,11 +85,12 @@ def left_pressed():
 
 
 def left_released():
+    """ Sends control byte with the left Bit unset through the Bluetooth Socket  """
     global bool_left
     if not bool_left:
         try:
             global control_byte
-            control_byte &= 0xEF
+            control_byte &= 0xEF    # 1110 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_left = True
         except OSError:
@@ -88,11 +98,12 @@ def left_released():
 
 
 def right_pressed():
+    """ Sends control byte with the right Bit set through the Bluetooth Socket  """
     global bool_right
     if bool_right:
         try:
             global control_byte
-            control_byte |= 0x08
+            control_byte |= 0x08    # 0000 1000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_right = False
         except OSError:
@@ -100,11 +111,12 @@ def right_pressed():
 
 
 def right_released():
+    """ Sends control byte with the right Bit unset through the Bluetooth Socket  """
     global bool_right
     if not bool_right:
         try:
             global control_byte
-            control_byte &= 0xF7
+            control_byte &= 0xF7    # 1111 0111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_right = True
         except OSError:
@@ -112,11 +124,12 @@ def right_released():
 
 
 def up_left_pressed():
+    """ Sends control byte with the up and left bits set through the Bluetooth Socket  """
     global bool_up_left
     if bool_up_left:
         try:
             global control_byte
-            control_byte |= 0x50
+            control_byte |= 0x50    # 0101 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_up_left = False
         except OSError:
@@ -124,11 +137,12 @@ def up_left_pressed():
 
 
 def up_left_released():
+    """ Sends control byte with the up and left Bits unset through the Bluetooth Socket  """
     global bool_up_left
     if not bool_up_left:
         try:
             global control_byte
-            control_byte &= 0xAF
+            control_byte &= 0xAF    # 1010 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_up_left = True
         except OSError:
@@ -136,11 +150,12 @@ def up_left_released():
 
 
 def up_right_pressed():
+    """ Sends control byte with the up and right bits set through the Bluetooth Socket  """
     global bool_up_right
     if bool_up_right:
         try:
             global control_byte
-            control_byte |= 0x48
+            control_byte |= 0x48    # 0100 1000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_up_right = False
         except OSError:
@@ -148,11 +163,12 @@ def up_right_pressed():
 
 
 def up_right_released():
+    """ Sends control byte with the up and right Bits unset through the Bluetooth Socket  """
     global bool_up_right
     if not bool_up_right:
         try:
             global control_byte
-            control_byte &= 0xB7
+            control_byte &= 0xB7    # 1011 0111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_up_right = True
         except OSError:
@@ -160,11 +176,12 @@ def up_right_released():
 
 
 def down_left_pressed():
+    """ Sends control byte with the down and left bits set through the Bluetooth Socket  """
     global bool_down_left
     if bool_down_left:
         try:
             global control_byte
-            control_byte |= 0x30
+            control_byte |= 0x30    # 0011 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_down_left = False
         except OSError:
@@ -172,11 +189,12 @@ def down_left_pressed():
 
 
 def down_left_released():
+    """ Sends control byte with the down and left Bits unset through the Bluetooth Socket  """
     global bool_down_left
     if not bool_down_left:
         try:
             global control_byte
-            control_byte &= 0xCF
+            control_byte &= 0xCF    # 1100 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_down_left = True
         except OSError:
@@ -184,11 +202,12 @@ def down_left_released():
 
 
 def down_right_pressed():
+    """ Sends control byte with the down and right bits set through the Bluetooth Socket  """
     global bool_down_right
     if bool_down_right:
         try:
             global control_byte
-            control_byte |= 0x28
+            control_byte |= 0x28    # 0010 1000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_down_right = False
         except OSError:
@@ -196,11 +215,12 @@ def down_right_pressed():
 
 
 def down_right_released():
+    """ Sends control byte with the down and right Bits unset through the Bluetooth Socket  """
     global bool_down_right
     if not bool_down_right:
         try:
             global control_byte
-            control_byte &= 0xD7
+            control_byte &= 0xD7    # 1101 0111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_down_right = True
         except OSError:
@@ -208,11 +228,12 @@ def down_right_released():
 
 
 def buz_pressed():
+    """ Sends control byte with the buz bit set through the Bluetooth Socket  """
     global bool_buz
     if bool_buz:
         try:
             global control_byte
-            control_byte |= 0x80
+            control_byte |= 0x80    # 1000 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_buz = False
         except OSError:
@@ -220,11 +241,12 @@ def buz_pressed():
 
 
 def buz_released():
+    """ Sends control byte with the buzzer Bit unset through the Bluetooth Socket  """
     global bool_buz
     if not bool_buz:
         try:
             global control_byte
-            control_byte &= 0x7F
+            control_byte &= 0x7F    # 0111 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_buz = True
         except OSError:
@@ -232,6 +254,7 @@ def buz_released():
 
 
 def connect():
+    """ Starts a BluetoothSocket with the ESP32"""
     connectBtn["state"] = "disabled"
     try:
         global sock
@@ -253,6 +276,7 @@ def connect():
 
 
 def disable_all():
+    """ Disables all the buttons of the GUI (except the connection one)"""
     key_unbind()
     upBtn["state"] = "disabled"
     downBtn["state"] = "disabled"
@@ -266,6 +290,7 @@ def disable_all():
 
 
 def active_all():
+    """ Enables all the buttons of the GUI"""
     key_bind()
     upBtn["state"] = "active"
     downBtn["state"] = "active"
@@ -279,6 +304,7 @@ def active_all():
 
 
 def disconnect_handle():
+    """ Shows a warning dialog in case of error"""
     messagebox.showwarning(title='You are disconnected', message='Please reconnect to the esp32')
     disable_all()
     connectedLbl.config(text="NOT connected!", bg='red')
@@ -286,6 +312,7 @@ def disconnect_handle():
 
 # Keyboard binding
 def key_bind():
+    """ Binds each action to a key of the keyboard"""
     ws.bind('<KeyRelease-w>', lambda event: up_released())
     ws.bind('<KeyPress-w>', lambda event: up_pressed())
     ws.bind('<KeyRelease-s>', lambda event: down_released())
@@ -299,6 +326,7 @@ def key_bind():
 
 
 def key_unbind():
+    """ Unbinds the actions from the keys of the keyboard"""
     ws.unbind('<KeyPress-w>')
     ws.unbind('<KeyRelease-s>')
     ws.unbind('<KeyPress-s>')
@@ -318,7 +346,6 @@ ws.configure(bg="lightgray")
 
 # button definition
 buttonFont = font.Font(family='Tahoma', size=16)
-
 upBtn = Button(ws, text="W", bg='white', font=buttonFont)
 downBtn = Button(ws, text="S", bg='white', font=buttonFont)
 leftBtn = Button(ws, text="A", bg='white', font=buttonFont)
@@ -351,6 +378,7 @@ downRightBtn.bind('<ButtonPress>', lambda event: down_right_pressed())
 buzBtn.bind('<ButtonRelease>', lambda event: buz_released())
 buzBtn.bind('<ButtonPress>', lambda event: buz_pressed())
 
+# Buttons show
 upBtn.grid(row=0, column=1, sticky=NSEW, padx=1, pady=1)
 downBtn.grid(row=2, column=1, sticky=NSEW, padx=1, pady=1)
 leftBtn.grid(row=1, column=0, sticky=NSEW, padx=1, pady=1)
