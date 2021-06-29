@@ -61,6 +61,7 @@ int32_t __pid_costraint(int32_t value, int32_t max_abs_value)
 	{
 		value = max_abs_value;
 	}
+	return value;
 }
 /********************* end FUNCTION ******************************/
 

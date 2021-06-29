@@ -9,15 +9,19 @@
 
 BluetoothSerial SerialBT;
 uint8_t control_byte;
+uint8_t i;
 
 
 void setup() {
   Serial.begin(115200);
   SerialBT.begin("SBLGruppo2"); //Bluetooth device name
+
+  i = 0;
 }
 
 void loop() {
   if (SerialBT.available()) {
+    i = 0;
     control_byte = (uint8_t) SerialBT.read(); 
 
     if (control_byte & 0x80) {
@@ -25,6 +29,9 @@ void loop() {
     } else {
       analogWrite(BUZ_PIN, 0, 987.77);
     }
+  } else if (i++ == 15) {
+    i = 0;
+    control_byte = 0x00;
   }
   Serial.write(control_byte);
   delay(300);

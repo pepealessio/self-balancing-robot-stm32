@@ -9,7 +9,7 @@
 /********************* DEFINE ******************************/
 
 #define FSM__MAX_VELOCITY 		(110)
-#define FSM__ANGLE_OFFSET   	(385)
+#define FSM__ANGLE_OFFSET   	(370) // W is -
 #define FSM__ANGLE_VARIATION	(110)
 
 // buz | up | down | left | right | v0 | v1 | v2

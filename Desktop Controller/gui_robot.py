@@ -140,6 +140,8 @@ def connect():
         port = 1
         sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         sock.connect((targetBluetoothMacAddress, port))
+        global control_byte
+        control_byte = 0x00
         connectedLbl.config(text="Connected", bg='green')
         active_all()
     except OSError as e:
