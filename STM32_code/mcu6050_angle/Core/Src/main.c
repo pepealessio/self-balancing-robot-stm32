@@ -49,8 +49,8 @@
 
 // Equilibrium PID parameters
 #define KP_ANGLE 		(110)
-#define KI_ANGLE		(50)
-#define KD_ANGLE 		(100)
+#define KI_ANGLE		(60)
+#define KD_ANGLE 		(70)
 
 // Moving PID parameters
 //#define KP_MOTOR 		(0)
@@ -59,7 +59,7 @@
 
 // Uncomment if you want use UART2 TX pin (same on USB, speed 115200) to read
 // actual angle and cycle time.
-//#define PRINT_DEBUG
+#define PRINT_DEBUG
 
 /* USER CODE END PD */
 
@@ -129,12 +129,13 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
-  MX_USART1_UART_Init();
   MX_TIM10_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   // Error led start
   Led__init(&hled0, GPIOA, GPIO_PIN_5);
+  Led__turn_on(&hled0);
 
   // Start motor controller
   hbridge__init(&hhbridge, &htim1);
@@ -158,6 +159,8 @@ int main(void)
   // Start encoder
   //Encoder__init(&hencoderl, &htim2);
   //Encoder__init(&hencoderr, &htim3);
+
+  Led__turn_off(&hled0);
 
   /* USER CODE END 2 */
 
@@ -187,12 +190,17 @@ int main(void)
 
 	/* ---------------------------------- EVALUATE OUTPUT ---------------------------------- */
 	FSM__update(&hfsm);
-	int64_t tilt_pwm = pid__evaluate_output(&hangle_pid, (int)(hmpu.KalmanAngleY * 100) + 250);
+	int64_t tilt_pwm = pid__evaluate_output(&hangle_pid, (int)(hmpu.KalmanAngleY * 100) + hfsm.angle_offset);
 //	int64_t vleft_pwm = pid__evaluate_output(&hmotorl_pid, hencoderl.diff);
 //	int64_t vright_pwm = pid__evaluate_output(&hmotorr_pid, hencoderr.diff);
 
 	/* ---------------------------------- WRITE OUTPUT ---------------------------------- */
 	 hbridge__set_motor(&hhbridge, tilt_pwm + (hfsm.left_target * FSM__MAX_VELOCITY), tilt_pwm + (hfsm.right_target * FSM__MAX_VELOCITY));
+
+	 HAL_UART_Transmit(&huart2, (uint8_t *) "x: ", 3, 0xFFFF);
+	 itoa(hfsm.current_control_message, buffer, 10);
+	 strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+	 HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
 
 #if defined (PRINT_DEBUG)
 	print_on_UART();
@@ -292,30 +300,30 @@ void MPU_Error_Handler(void)
 #if defined (PRINT_DEBUG)
 void print_on_UART(void)
 {
-	HAL_UART_Transmit(&huart2, (uint8_t *) "x: ", 3, 0xFFFF);
-	gcvt(hmpu.KalmanAngleY, 6, buffer);
-	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
-	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
-
-	HAL_UART_Transmit(&huart2, (uint8_t *) "y: ", 3, 0xFFFF);
-	gcvt(hmpu.KalmanAngleY, 6, buffer);
-	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
-	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
-
-	HAL_UART_Transmit(&huart2, (uint8_t *) "el: ", 4, 0xFFFF);
-	itoa((int) hencoderl.cnt, buffer, 10);
-	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
-	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
-
-	HAL_UART_Transmit(&huart2, (uint8_t *) "er: ", 4, 0xFFFF);
-	itoa((int) hencoderr.cnt, buffer, 10);
-	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
-	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
-
-	HAL_UART_Transmit(&huart2, (uint8_t *) "el.t: ", 6, 0xFFFF);
-	itoa(HAL_GetTick() - tick, buffer, 10);
-	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
-	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
+//	HAL_UART_Transmit(&huart2, (uint8_t *) "x: ", 3, 0xFFFF);
+//	gcvt(hmpu.KalmanAngleY, 6, buffer);
+//	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+//	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
+//
+//	HAL_UART_Transmit(&huart2, (uint8_t *) "y: ", 3, 0xFFFF);
+//	gcvt(hmpu.KalmanAngleY, 6, buffer);
+//	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+//	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
+//
+//	HAL_UART_Transmit(&huart2, (uint8_t *) "el: ", 4, 0xFFFF);
+//	itoa((int) hencoderl.cnt, buffer, 10);
+//	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+//	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
+//
+//	HAL_UART_Transmit(&huart2, (uint8_t *) "er: ", 4, 0xFFFF);
+//	itoa((int) hencoderr.cnt, buffer, 10);
+//	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+//	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
+//
+//	HAL_UART_Transmit(&huart2, (uint8_t *) "el.t: ", 6, 0xFFFF);
+//	itoa(HAL_GetTick() - tick, buffer, 10);
+//	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+//	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
 }
 #endif
 

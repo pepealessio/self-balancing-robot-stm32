@@ -37,8 +37,10 @@ int64_t pid__evaluate_output(pid_controller_t *hpid, int64_t read_value)
 
 	// compute the actual error
 	error = read_value - hpid->target;
+
 	// update the error sum used to evaluate error's integral
 	hpid->error_sum += error;
+//	hpid->error_sum = __pid_costraint(hpid->error_sum, 10000);
 
 	// evaluate PID output like $kp*error + \int_{0}^{t}{error dt} + \frac{d error}{dt}$"
 	output = (hpid->kp * error) + (hpid->ki * hpid->error_sum * PID_CONTROLLER__DT / 100) + hpid->kd * ((read_value - hpid->target) / PID_CONTROLLER__DT);
@@ -49,5 +51,16 @@ int64_t pid__evaluate_output(pid_controller_t *hpid, int64_t read_value)
 	return output;
 }
 
+int32_t __pid_costraint(int32_t value, int32_t max_abs_value)
+{
+	if (value < -max_abs_value)
+	{
+		value = - max_abs_value;
+	}
+	else if (value > max_abs_value)
+	{
+		value = max_abs_value;
+	}
+}
 /********************* end FUNCTION ******************************/
 

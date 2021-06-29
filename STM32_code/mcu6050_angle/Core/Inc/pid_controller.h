@@ -84,6 +84,8 @@ int32_t pid__get_target(pid_controller_t *hpid);
  */
 int64_t pid__evaluate_output(pid_controller_t *hpid, int64_t read_value);
 
+int32_t __pid_costraint(int32_t value, int32_t max_abs_value);
+
 /********************* end PROTOTYPE **************************/
 
 /********************* SINGLETON ******************************/

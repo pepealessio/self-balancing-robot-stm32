@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "supervisor.h"
 #include "led.h"
+#include "i2c.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

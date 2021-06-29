@@ -8,7 +8,9 @@
 
 /********************* DEFINE ******************************/
 
-#define FSM__MAX_VELOCITY 	(150)
+#define FSM__MAX_VELOCITY 		(110)
+#define FSM__ANGLE_OFFSET   	(385)
+#define FSM__ANGLE_VARIATION	(110)
 
 // buz | up | down | left | right | v0 | v1 | v2
 
@@ -38,6 +40,7 @@ typedef struct FSM__current_s
 	uint8_t vh;
 	int64_t left_target;
 	int64_t right_target;
+	int64_t angle_offset;
 } FSM__current_t;
 
 /********************* end TYPEDEF **************************/
