@@ -310,20 +310,20 @@ def disable_all():
 def active_all():
     """ Enables all the buttons of the GUI"""
     key_bind()
-    upBtn["state"] = "active"
-    downBtn["state"] = "active"
-    leftBtn["state"] = "active"
-    rightBtn["state"] = "active"
-    upLeftBtn["state"] = "active"
-    downLeftBtn["state"] = "active"
-    upRightBtn["state"] = "active"
-    downRightBtn["state"] = "active"
-    buzBtn["state"] = "active"
+    upBtn["state"] = "normal"
+    downBtn["state"] = "normal"
+    leftBtn["state"] = "normal"
+    rightBtn["state"] = "normal"
+    upLeftBtn["state"] = "normal"
+    downLeftBtn["state"] = "normal"
+    upRightBtn["state"] = "normal"
+    downRightBtn["state"] = "normal"
+    buzBtn["state"] = "normal"
 
 
 def disconnect_handle():
     """ Shows a warning dialog in case of error"""
-    messagebox.showwarning(title='You are disconnected', message='Please reconnect to the esp32')
+    messagebox.showwarning(title='You are disconnected', message='Please connect to the esp32')
     disable_all()
     connectedLbl.config(text="NOT connected!", bg='red')
 
