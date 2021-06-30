@@ -15,19 +15,19 @@
 /********************* end INCLUDE **************************/
 
 /********************* DEFINE ******************************/
-#define RAD_TO_DEG 57.295779513082320876798154814105
+#define RAD_TO_DEG 		(57.295779513082320876798154814105)
 
-#define WHO_AM_I_REG 0x75
-#define PWR_MGMT_1_REG 0x6B
-#define SMPLRT_DIV_REG 0x19
-#define ACCEL_CONFIG_REG 0x1C
-#define ACCEL_XOUT_H_REG 0x3B
-#define TEMP_OUT_H_REG 0x41
-#define GYRO_CONFIG_REG 0x1B
-#define GYRO_XOUT_H_REG 0x43
+#define WHO_AM_I_REG 		(0x75)
+#define PWR_MGMT_1_REG 		(0x6B)
+#define SMPLRT_DIV_REG 		(0x19)
+#define ACCEL_CONFIG_REG 	(0x1C)
+#define ACCEL_XOUT_H_REG 	(0x3B)
+#define TEMP_OUT_H_REG 		(0x41)
+#define GYRO_CONFIG_REG 	(0x1B)
+#define GYRO_XOUT_H_REG 	(0x43)
 
 // Setup MPU6050
-#define MPU6050_ADDR 0xD0
+#define MPU6050_ADDR 		(0xD0)
 const uint16_t i2c_timeout = 100;
 const double Accel_Z_corrector = 14418.0;
 
@@ -90,7 +90,7 @@ uint8_t MPU6050__Read_All(MPU6050_t *hmpu6050) {
 
     // Read 14 BYTES of data starting from ACCEL_XOUT_H register
 
-    HAL_StatusTypeDef status = HAL_I2C_Mem_Read(hmpu6050->hi2c, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 14, i2c_timeout);
+    uint8_t status = HAL_I2C_Mem_Read(hmpu6050->hi2c, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 14, i2c_timeout);
 
     hmpu6050->Accel_X_RAW = (int16_t) (Rec_Data[0] << 8 | Rec_Data[1]);
     hmpu6050->Accel_Y_RAW = (int16_t) (Rec_Data[2] << 8 | Rec_Data[3]);

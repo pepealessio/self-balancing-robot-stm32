@@ -96,18 +96,6 @@ int32_t __pid_costraint(int32_t value, int32_t max_abs_value);
  */
 pid_controller_t hangle_pid;
 
-/**
- * The PID used to control the left motor of the SBL respect the
- * speed target.
- */
-pid_controller_t hmotorl_pid;
-
-/**
- * The PID used to control the right motor of the SBL respect the
- * speed target.
- */
-pid_controller_t hmotorr_pid;
-
 /********************* end SINGLETON **************************/
 
 #endif /* INC_PID_CONTROLLER_H_ */

@@ -3,25 +3,27 @@
 #ifndef INC_SUPERVISOR_H_
 #define INC_SUPERVISOR_H_
 
+/********************* INCLUDE ******************************/
+
 #include <stdbool.h>
 #include <stdint.h>
 
+/********************* end INCLUDE **************************/
+
 /********************* DEFINE ******************************/
 
-#define FSM__MAX_VELOCITY 		(110)
-#define FSM__ANGLE_OFFSET   	(365) // W is -
-#define FSM__ANGLE_VARIATION	(110)
+#define FSM__MAX_VELOCITY 		(12100)
+#define FSM__ANGLE_OFFSET   	(110) // W is -
+#define FSM__ANGLE_VARIATION	(115)
 
-// buz | up | down | left | right | v0 | v1 | v2
+// The control byte is like the following:
+// buz | up | down | left | right | res | res | res
 
-#define FSM__vh_mask		(0x07)
-
+#define FSM__buz_mask					(0x80)
 #define FSM__up_mask					(0x40)
 #define FSM__down_mask					(0x20)
 #define FSM__left_mask					(0x10)
 #define FSM__right_mask					(0x08)
-
-#define FSM__buz_mask					(0x80)
 
 /********************* end DEFINE **************************/
 
@@ -29,15 +31,14 @@
 
 /**
  * The control message structured as below
- * ~buz | ~up | ~down | ~left | ~right | v0 | v1 | v2
+ * buz | up | down | left | right | res | res | res
  */
 typedef uint8_t FSM__control_message;
 
 typedef struct FSM__current_s
 {
-	uint8_t current_control_message;
+	FSM__control_message current_control_message;
 	bool message_changed;
-	uint8_t vh;
 	int64_t left_target;
 	int64_t right_target;
 	int64_t angle_offset;
