@@ -35,7 +35,6 @@
 #include "pid_controller.h"
 #include "supervisor.h"
 #include "hbridge.h"
-#include "encoder.h"
 
 /* USER CODE END Includes */
 
@@ -48,14 +47,11 @@
 /* USER CODE BEGIN PD */
 
 // Equilibrium PID parameters
-#define KP_ANGLE 		(110)
-#define KI_ANGLE		(50)
-#define KD_ANGLE 		(100)
+#define KP_ANGLE 		(120)
+#define KI_ANGLE		(80)
+#define KD_ANGLE 		(90)
 
-// Moving PID parameters
-//#define KP_MOTOR 		(0)
-//#define KI_MOTOR 		(0)
-//#define KD_MOTOR 		(0)
+#define DT 				(15)
 
 // Uncomment if you want use UART2 TX pin (same on USB, speed 115200) to read
 // actual angle and cycle time.
@@ -72,8 +68,8 @@
 
 /* USER CODE BEGIN PV */
 
-// Buffer for debugging
 #if defined (PRINT_DEBUG)
+// Buffer for debugging print
 char buffer[10];
 #endif
 
@@ -129,8 +125,8 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
-  MX_USART1_UART_Init();
   MX_TIM10_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   // Error led start
@@ -150,14 +146,8 @@ int main(void)
   hfsm_buffer = 0x00;
   HAL_UART_Receive_IT(&huart1, &hfsm_buffer, 1);
 
-  // Start all pid
+  // Start pid
   pid__init(&hangle_pid, KP_ANGLE, KI_ANGLE, KD_ANGLE, 0);
-  //pid__init(&hmotorl_pid, KP_MOTOR, KI_MOTOR, KD_MOTOR, 0);
-  //pid__init(&hmotorr_pid, KP_MOTOR, KI_MOTOR, KD_MOTOR, 0);
-
-  // Start encoder
-  //Encoder__init(&hencoderl, &htim2);
-  //Encoder__init(&hencoderr, &htim3);
 
   /* USER CODE END 2 */
 
@@ -172,33 +162,35 @@ int main(void)
 	tick = HAL_GetTick();
 
 	/* ---------------------------------- READ INPUT ---------------------------------- */
+	// Read the tilt angle.
 	if (MPU6050__Read_All(&hmpu))
 	{
 		MPU_Error_Handler();
 	}
-//	Encoder__read(&hencoderl);
-//	Encoder__read(&hencoderr);
 
-	// Check for SBR is stand up.
+	// Check for SBR is stand up. If it fallen stop the motor and the interrupt and attemps
+	// for a reboot.
 	if (fabs(hmpu.KalmanAngleY) > 60)
 	{
 		Balancing_Error_Handler();
 	}
 
 	/* ---------------------------------- EVALUATE OUTPUT ---------------------------------- */
+	// Evaluate offset and target using the control byte received from esp32.
 	FSM__update(&hfsm);
-	int64_t tilt_pwm = pid__evaluate_output(&hangle_pid, (int)(hmpu.KalmanAngleY * 100) + 250);
-//	int64_t vleft_pwm = pid__evaluate_output(&hmotorl_pid, hencoderl.diff);
-//	int64_t vright_pwm = pid__evaluate_output(&hmotorr_pid, hencoderr.diff);
+
+	// Use pid to evaluate the actual needed motor power.
+	int64_t tilt_pwm = pid__evaluate_output(&hangle_pid, (int)(hmpu.KalmanAngleY * 100) + hfsm.angle_offset);
 
 	/* ---------------------------------- WRITE OUTPUT ---------------------------------- */
-	 hbridge__set_motor(&hhbridge, tilt_pwm + (hfsm.left_target * FSM__MAX_VELOCITY), tilt_pwm + (hfsm.right_target * FSM__MAX_VELOCITY));
+	// Now control the motor with the previous calculation.
+	hbridge__set_motor(&hhbridge, tilt_pwm + hfsm.left_target, tilt_pwm + hfsm.right_target);
 
 #if defined (PRINT_DEBUG)
 	print_on_UART();
 #endif
 
-	HAL_Delay(15 - (HAL_GetTick() - tick));
+	HAL_Delay(DT - (HAL_GetTick() - tick));
   }
   /* USER CODE END 3 */
 }
@@ -309,6 +301,11 @@ void print_on_UART(void)
 
 	HAL_UART_Transmit(&huart2, (uint8_t *) "er: ", 4, 0xFFFF);
 	itoa((int) hencoderr.cnt, buffer, 10);
+	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
+
+	HAL_UART_Transmit(&huart2, (uint8_t *) "c.b. : ", 5, 0xFFFF);
+	itoa(hfsm.current_control_message, buffer, 10);
 	strcat(buffer, "\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
 	HAL_UART_Transmit(&huart2, (uint8_t *) buffer, 10, 0xFFFF);
 

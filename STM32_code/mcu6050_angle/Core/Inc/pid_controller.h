@@ -84,6 +84,8 @@ int32_t pid__get_target(pid_controller_t *hpid);
  */
 int64_t pid__evaluate_output(pid_controller_t *hpid, int64_t read_value);
 
+int32_t __pid_costraint(int32_t value, int32_t max_abs_value);
+
 /********************* end PROTOTYPE **************************/
 
 /********************* SINGLETON ******************************/
@@ -93,18 +95,6 @@ int64_t pid__evaluate_output(pid_controller_t *hpid, int64_t read_value);
  * equilibrium (angle) of the SBL.
  */
 pid_controller_t hangle_pid;
-
-/**
- * The PID used to control the left motor of the SBL respect the
- * speed target.
- */
-pid_controller_t hmotorl_pid;
-
-/**
- * The PID used to control the right motor of the SBL respect the
- * speed target.
- */
-pid_controller_t hmotorr_pid;
 
 /********************* end SINGLETON **************************/
 

@@ -55,11 +55,11 @@ typedef struct {
 } MPU6050_t;
 
 /**
- * This structure represent the math model describet in the Neto's Researh
+ * This structure represent the math model described in the Neto's Research
  * "Kalman Filter-Based Yaw Angle Estimation by Fusing Inertial and
  * Magnetic Sensing".
  *
- * @attention:	PLEASE not refer this struct.
+ * @attention:	PLEASE not refer this structure.
  */
 typedef struct {
     double Q_angle;
