@@ -29,7 +29,7 @@ def up_pressed():
             control_byte |= 0x40  # 0100 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_up = False
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -43,7 +43,7 @@ def up_released():
             control_byte &= 0xBF    # 1011 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_up = True
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -57,7 +57,7 @@ def down_pressed():
             control_byte |= 0x20    # 0010 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_down = False
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -71,7 +71,7 @@ def down_released():
             control_byte &= 0xDF    # 1101 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_down = True
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -85,7 +85,7 @@ def left_pressed():
             control_byte |= 0x10    # 0001 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_left = False
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -99,7 +99,7 @@ def left_released():
             control_byte &= 0xEF    # 1110 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_left = True
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -113,7 +113,7 @@ def right_pressed():
             control_byte |= 0x08    # 0000 1000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_right = False
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -127,7 +127,7 @@ def right_released():
             control_byte &= 0xF7    # 1111 0111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_right = True
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 #
@@ -141,7 +141,7 @@ def right_released():
 #             control_byte |= 0x50    # 0101 0000
 #             sock.send(control_byte.to_bytes(1, 'big'))
 #             bool_up_left = False
-#         except OSError:
+#         except (OSError, AttributeError):
 #             disconnect_handle()
 #
 #
@@ -155,7 +155,7 @@ def right_released():
 #             control_byte &= 0xAF    # 1010 1111
 #             sock.send(control_byte.to_bytes(1, 'big'))
 #             bool_up_left = True
-#         except OSError:
+#         except (OSError, AttributeError):
 #             disconnect_handle()
 #
 #
@@ -169,7 +169,7 @@ def right_released():
 #             control_byte |= 0x48    # 0100 1000
 #             sock.send(control_byte.to_bytes(1, 'big'))
 #             bool_up_right = False
-#         except OSError:
+#         except (OSError, AttributeError):
 #             disconnect_handle()
 #
 #
@@ -183,7 +183,7 @@ def right_released():
 #             control_byte &= 0xB7    # 1011 0111
 #             sock.send(control_byte.to_bytes(1, 'big'))
 #             bool_up_right = True
-#         except OSError:
+#         except (OSError, AttributeError):
 #             disconnect_handle()
 #
 #
@@ -197,7 +197,7 @@ def right_released():
 #             control_byte |= 0x30    # 0011 0000
 #             sock.send(control_byte.to_bytes(1, 'big'))
 #             bool_down_left = False
-#         except OSError:
+#         except (OSError, AttributeError):
 #             disconnect_handle()
 #
 #
@@ -211,7 +211,7 @@ def right_released():
 #             control_byte &= 0xCF    # 1100 1111
 #             sock.send(control_byte.to_bytes(1, 'big'))
 #             bool_down_left = True
-#         except OSError:
+#         except (OSError, AttributeError):
 #             disconnect_handle()
 #
 #
@@ -225,7 +225,7 @@ def right_released():
 #             control_byte |= 0x28    # 0010 1000
 #             sock.send(control_byte.to_bytes(1, 'big'))
 #             bool_down_right = False
-#         except OSError:
+#         except (OSError, AttributeError):
 #             disconnect_handle()
 #
 #
@@ -239,7 +239,7 @@ def right_released():
 #             control_byte &= 0xD7    # 1101 0111
 #             sock.send(control_byte.to_bytes(1, 'big'))
 #             bool_down_right = True
-#         except OSError:
+#         except (OSError, AttributeError):
 #             disconnect_handle()
 #
 
@@ -253,7 +253,7 @@ def buz_pressed():
             control_byte |= 0x80    # 1000 0000
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_buz = False
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -267,7 +267,7 @@ def buz_released():
             control_byte &= 0x7F    # 0111 1111
             sock.send(control_byte.to_bytes(1, 'big'))
             bool_buz = True
-        except OSError:
+        except (OSError, AttributeError):
             disconnect_handle()
 
 
@@ -453,14 +453,14 @@ target_name = "SBLGruppo2"
 targetBluetoothMacAddress = None
 devices = bluetooth.discover_devices()
 for bdaddr in devices:
-    # print(bluetooth.lookup_name(bdaddr))
     if target_name == bluetooth.lookup_name(bdaddr):
         targetBluetoothMacAddress = bdaddr
-        print(targetBluetoothMacAddress)
+        # print(targetBluetoothMacAddress)
         break
 
 # targetBluetoothMacAddress = '24:6F:28:B4:F0:6E'
 if targetBluetoothMacAddress is None:
+    messagebox.showerror(title='SBR not found', message='Turn on the SBR and restart the application')
     exit(2)
 
 disable_all()
