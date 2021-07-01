@@ -15,7 +15,6 @@ void FSM__init(FSM__current_t *hfsm)
 	hfsm->message_changed = true;
 	hfsm->left_target = 0;
 	hfsm->right_target = 0;
-	hfsm->angle_offset = FSM__ANGLE_OFFSET;
 }
 
 void FSM__set_control_message(FSM__current_t *hfsm, FSM__control_message new_message)
@@ -31,20 +30,19 @@ void FSM__update(FSM__current_t *hfsm)
 		// Reset actual target
 		hfsm->left_target = 0;
 		hfsm->right_target = 0;
-		hfsm->angle_offset = FSM__ANGLE_OFFSET;
-
+		pid__set_target(&hangle_pid, FSM__ANGLE_OFFSET);
 		// Compute new target
 		if (!(hfsm->current_control_message & FSM__up_mask))
 		{
 			hfsm->left_target += FSM__MAX_VELOCITY;
 			hfsm->right_target += FSM__MAX_VELOCITY;
-			hfsm->angle_offset += FSM__ANGLE_VARIATION;
+			pid__set_target(&hangle_pid, pid__get_target(&hangle_pid) + FSM__ANGLE_VARIATION);
 		}
 		if (!(hfsm->current_control_message & FSM__down_mask))
 		{
 			hfsm->left_target -= FSM__MAX_VELOCITY;
 			hfsm->right_target -= FSM__MAX_VELOCITY;
-			hfsm->angle_offset -= FSM__ANGLE_VARIATION;
+			pid__set_target(&hangle_pid, pid__get_target(&hangle_pid) - FSM__ANGLE_VARIATION);
 		}
 		if (!(hfsm->current_control_message & FSM__left_mask))
 		{

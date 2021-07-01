@@ -147,7 +147,7 @@ int main(void)
   HAL_UART_Receive_IT(&huart1, &hfsm_buffer, 1);
 
   // Start pid
-  pid__init(&hangle_pid, KP_ANGLE, KI_ANGLE, KD_ANGLE, 0);
+  pid__init(&hangle_pid, KP_ANGLE, KI_ANGLE, KD_ANGLE, FSM__ANGLE_OFFSET);
 
   /* USER CODE END 2 */
 
@@ -180,7 +180,7 @@ int main(void)
 	FSM__update(&hfsm);
 
 	// Use pid to evaluate the actual needed motor power.
-	int64_t tilt_pwm = pid__evaluate_output(&hangle_pid, (int)(hmpu.KalmanAngleY * 100) + hfsm.angle_offset);
+	int64_t tilt_pwm = pid__evaluate_output(&hangle_pid, (int)(hmpu.KalmanAngleY * 100));
 
 	/* ---------------------------------- WRITE OUTPUT ---------------------------------- */
 	// Now control the motor with the previous calculation.
