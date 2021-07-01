@@ -13,8 +13,8 @@
 /********************* DEFINE ******************************/
 
 #define FSM__MAX_VELOCITY 		(12100)
-#define FSM__ANGLE_OFFSET   	(113) // W is -
-#define FSM__ANGLE_VARIATION	(115)
+#define FSM__ANGLE_OFFSET   	(-125) // W is +
+#define FSM__ANGLE_VARIATION	(-115) // W is +
 
 // The control byte is like the following:
 // buz | up | down | left | right | res | res | res
@@ -49,16 +49,16 @@ typedef struct FSM__current_s
 /********************* PROTOTYPE ******************************/
 
 /**
+ * Set the initial state and the initial parameter.
+ */
+void FSM__init(FSM__current_t *hfsm);
+
+/**
  * Use this function to set a new control message. That will be evaluated
  * in the next main cycle. If you use set multiple times in just one
  * cycle, just the newer message will be evaluated.
  */
 void FSM__set_control_message(FSM__current_t *hfsm, FSM__control_message new_message);
-
-/**
- * Set the initial state and the initial parameter.
- */
-void FSM__init(FSM__current_t *hfsm);
 
 /**
  * Evolve the FSM representing the system.

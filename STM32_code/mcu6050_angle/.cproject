@@ -147,10 +147,6 @@
                         					
                     </folderInfo>
                     					
-                    <fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1735751909.2010012505" name="encoder.h" rcbsApplicability="disable" resourcePath="Core/Inc/encoder.h" toolsToInvoke=""/>
-                    					
-                    <fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1735751909.1883471297" name="mpu6050.h" rcbsApplicability="disable" resourcePath="Core/Inc/mpu6050.h" toolsToInvoke=""/>
-                    					
                     <sourceEntries>
                         						
                         <entry excluding="Src/encoder.c|Inc/encoder.h|Inc/mpu6050.h|Src/mpu6050.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
