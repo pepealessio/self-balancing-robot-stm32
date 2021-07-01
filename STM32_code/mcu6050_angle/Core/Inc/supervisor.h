@@ -13,7 +13,7 @@
 /********************* DEFINE ******************************/
 
 #define FSM__MAX_VELOCITY 		(12100)
-#define FSM__ANGLE_OFFSET   	(-113) // W is +
+#define FSM__ANGLE_OFFSET   	(-125) // W is +
 #define FSM__ANGLE_VARIATION	(-115) // W is +
 
 // The control byte is like the following:

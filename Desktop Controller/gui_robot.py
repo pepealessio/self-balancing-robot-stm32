@@ -458,7 +458,7 @@ for bdaddr in devices:
         # print(targetBluetoothMacAddress)
         break
 
-targetBluetoothMacAddress = '24:6F:28:B4:F0:6E'
+# targetBluetoothMacAddress = '24:6F:28:B4:F0:6E'
 if targetBluetoothMacAddress is None:
     messagebox.showerror(title='SBR not found', message='Turn on the SBR and restart the application')
     exit(2)
