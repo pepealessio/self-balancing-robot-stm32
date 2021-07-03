@@ -12,9 +12,9 @@
 
 /********************* DEFINE ******************************/
 
-#define FSM__MAX_VELOCITY 		(12100)
-#define FSM__ANGLE_OFFSET   	(-120) // W is +
-#define FSM__ANGLE_VARIATION	(-115) // W is +
+#define FSM__MAX_VELOCITY 		(10100)
+#define FSM__ANGLE_OFFSET   	(-130) // W is +
+#define FSM__ANGLE_VARIATION	(-105) // W is +
 
 // The control byte is like the following:
 // buz | up | down | left | right | res | res | res

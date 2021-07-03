@@ -47,9 +47,9 @@
 /* USER CODE BEGIN PD */
 
 // Equilibrium PID parameters
-#define KP_ANGLE 		(120)
-#define KI_ANGLE		(80)
-#define KD_ANGLE 		(90)
+#define KP_ANGLE 		(123)
+#define KI_ANGLE		(78)
+#define KD_ANGLE 		(50)
 
 #define DT 				(15)
 

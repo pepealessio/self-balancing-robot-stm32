@@ -449,16 +449,16 @@ for x in range(3):
     ws.rowconfigure(x, weight=1)
 
 # Socket connection
-target_name = "SBLGruppo2"
-targetBluetoothMacAddress = None
-devices = bluetooth.discover_devices()
-for bdaddr in devices:
-    if target_name == bluetooth.lookup_name(bdaddr):
-        targetBluetoothMacAddress = bdaddr
-        # print(targetBluetoothMacAddress)
-        break
+# target_name = "SBLGruppo2"
+# targetBluetoothMacAddress = None
+# devices = bluetooth.discover_devices()
+# for bdaddr in devices:
+#     if target_name == bluetooth.lookup_name(bdaddr):
+#         targetBluetoothMacAddress = bdaddr
+#         # print(targetBluetoothMacAddress)
+#         break
 
-# targetBluetoothMacAddress = '24:6F:28:B4:F0:6E'
+targetBluetoothMacAddress = '24:6F:28:B4:F0:6E'
 if targetBluetoothMacAddress is None:
     messagebox.showerror(title='SBR not found', message='Turn on the SBR and restart the application')
     exit(2)
