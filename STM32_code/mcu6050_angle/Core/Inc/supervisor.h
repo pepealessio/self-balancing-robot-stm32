@@ -12,6 +12,7 @@
 
 /********************* DEFINE ******************************/
 
+
 #define FSM__MAX_VELOCITY 		(10100)
 #define FSM__ANGLE_OFFSET   	(-130) // W is +
 #define FSM__ANGLE_VARIATION	(-105) // W is +
