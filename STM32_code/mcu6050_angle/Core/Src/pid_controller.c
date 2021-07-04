@@ -43,7 +43,7 @@ int64_t pid__evaluate_output(pid_controller_t *hpid, int64_t read_value)
 //	hpid->error_sum = __pid_costraint(hpid->error_sum, 10000);
 
 	// evaluate PID output like $kp*error + \int_{0}^{t}{error dt} + \frac{d error}{dt}$"
-	output = (hpid->kp * error) + (hpid->ki * hpid->error_sum * PID_CONTROLLER__DT / 100) + hpid->kd * ((read_value - hpid->target) / PID_CONTROLLER__DT);
+	output = (hpid->kp * error) + (hpid->ki * hpid->error_sum * PID_CONTROLLER__DT / 100) + hpid->kd * ((read_value - hpid->last_read_value) / PID_CONTROLLER__DT);
 
 	// update last read value used in derivative error
 	hpid->last_read_value = read_value;
